@@ -1,0 +1,24 @@
+model Case {
+  id              String   @id @default(uuid())
+  caseType        String
+  filingDate      DateTime
+  hearings        Int
+  adjournments    Int
+  partyType       String
+  vulnerableFlag  Boolean
+  description     String
+
+  prediction      Prediction?
+}
+
+model Prediction {
+  id               String   @id @default(uuid())
+  caseId           String   @unique
+  priorityScore    Float
+  urgencyBand      String
+  delayRisk        Boolean
+  predictedDays    Int
+  explanation      Json
+
+  case             Case     @relation(fields: [caseId], references: [id])
+}
